@@ -1,0 +1,100 @@
+{
+  "as_of": "2026-09-04",
+  "total_real_tasks": 4,
+  "rows": [
+    {
+      "project": "pm-agent-team",
+      "root": "/home/madiyar/pm-agent-team/.pmos",
+      "brief": null,
+      "planner_outputs": [],
+      "decisions": [],
+      "plans": []
+    },
+    {
+      "project": "qaida",
+      "root": "/home/madiyar/qaida/.pmos",
+      "brief": {
+        "path": "/home/madiyar/qaida/.pmos/charter.md",
+        "bytes": 17141,
+        "dirty": false,
+        "reason": ""
+      },
+      "planner_outputs": [
+        {
+          "path": "/home/madiyar/qaida/.pmos/out/architect/current-state.md",
+          "bytes": 11539,
+          "dirty": false,
+          "reason": ""
+        },
+        {
+          "path": "/home/madiyar/qaida/.pmos/out/architect/od-resolutions.md",
+          "bytes": 11279,
+          "dirty": false,
+          "reason": ""
+        }
+      ],
+      "decisions": [
+        "/home/madiyar/qaida/.pmos/decisions/ADR-004-group-midpoint.md",
+        "/home/madiyar/qaida/.pmos/decisions/ADR-005-friends.md",
+        "/home/madiyar/qaida/.pmos/decisions/ADR-006-chat.md"
+      ],
+      "plans": [
+        {
+          "path": "/home/madiyar/qaida/.pmos/plans/plan.md",
+          "bytes": 20863,
+          "dirty": false,
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "project": "suited",
+      "root": "/home/madiyar/suited/.pmos",
+      "brief": {
+        "path": "/home/madiyar/suited/.pmos/charter.md",
+        "bytes": 11154,
+        "dirty": false,
+        "reason": ""
+      },
+      "planner_outputs": [
+        {
+          "path": "/home/madiyar/suited/.pmos/out/planner/architecture.md",
+          "bytes": 6291,
+          "dirty": false,
+          "reason": ""
+        },
+        {
+          "path": "/home/madiyar/suited/.pmos/out/planner/current-state.md",
+          "bytes": 9221,
+          "dirty": false,
+          "reason": ""
+        }
+      ],
+      "decisions": [
+        "/home/madiyar/suited/.pmos/decisions/ADR-001-als-score-gate.md",
+        "/home/madiyar/suited/.pmos/decisions/ADR-002-classifier-quality-gate.md",
+        "/home/madiyar/suited/.pmos/decisions/ADR-003-anchors-not-percentiles.md",
+        "/home/madiyar/suited/.pmos/decisions/ADR-004-collector-dep-boundary.md"
+      ],
+      "plans": [
+        {
+          "path": "/home/madiyar/suited/.pmos/plans/plan.md",
+          "bytes": 32119,
+          "dirty": false,
+          "reason": ""
+        }
+      ]
+    }
+  ],
+  "git_history_addendum": {
+    "note": "recovered via git log --all on ~/qaida and ~/suited",
+    "qaida_architect_ever": [
+      ".pmos/out/architect/current-state.md",
+      ".pmos/out/architect/interfaces.md",
+      ".pmos/out/architect/od-resolutions.md",
+      ".pmos/out/architect/vocab-delta-plan.md"
+    ],
+    "revised_ceiling": "working-tree 4 + history-only 2-3 = 6-7 real tasks",
+    "power_verdict": "STILL <30 \u2014 G0/G1 statistical-power constraint is real; eval set cannot be fully synthetic, mining+synthetic-generation split per plan step 1 confirmed necessary"
+  }
+}
