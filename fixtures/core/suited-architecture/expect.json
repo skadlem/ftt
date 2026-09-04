@@ -1,0 +1,10 @@
+{
+  "task_id": "suited-architecture",
+  "family": "suited-site-prediction",
+  "source": "real",
+  "project": "suited",
+  "artifact_rel": ".pmos/out/planner/architecture.md",
+  "provenance": "working-tree",
+  "artifact_sha256": "7e497beb88a698862f05d188a97ebc283b2502f96b49d4b129dfac990461810a",
+  "brief_sha256": "69203a4b8dba13e77ee8399a89625f2a362e6a67bdb8550bac8abf7411607b1a"
+}

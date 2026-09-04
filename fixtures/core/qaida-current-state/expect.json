@@ -1,0 +1,10 @@
+{
+  "task_id": "qaida-current-state",
+  "family": "qaida-chat-app",
+  "source": "real",
+  "project": "qaida",
+  "artifact_rel": ".pmos/out/architect/current-state.md",
+  "provenance": "working-tree",
+  "artifact_sha256": "55d078b5d6401cd78031c7499a66beecd2e488e09a1b4c8563b55ffa80c761f0",
+  "brief_sha256": "808fb4f4b50d3a87e1022b324ac8ba53fe169d88d0bc4bfd456ab3c5fbb11fde"
+}

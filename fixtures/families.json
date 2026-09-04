@@ -1,0 +1,17 @@
+{
+  "qaida-chat-app": {
+    "usage": "train",
+    "projects": [
+      "qaida"
+    ]
+  },
+  "suited-site-prediction": {
+    "usage": "train",
+    "projects": [
+      "suited"
+    ]
+  },
+  "_rule": {
+    "rule": "train pool derives ONLY from families listed here; eval ring must use families absent from the train generation run (D14 family-disjointness)"
+  }
+}

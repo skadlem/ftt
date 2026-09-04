@@ -1,0 +1,10 @@
+{
+  "task_id": "qaida-od-resolutions",
+  "family": "qaida-chat-app",
+  "source": "real",
+  "project": "qaida",
+  "artifact_rel": ".pmos/out/architect/od-resolutions.md",
+  "provenance": "working-tree",
+  "artifact_sha256": "63407ad0d0d0b379f872916285ac4aaa2101d7d208a9062561e5c9663e27cc38",
+  "brief_sha256": "44e2fcb7dac353936b023eb76a9adc535b853a6251c5ba18182e9c9c0fc35fe9"
+}

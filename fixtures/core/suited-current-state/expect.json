@@ -1,0 +1,10 @@
+{
+  "task_id": "suited-current-state",
+  "family": "suited-site-prediction",
+  "source": "real",
+  "project": "suited",
+  "artifact_rel": ".pmos/out/planner/current-state.md",
+  "provenance": "working-tree",
+  "artifact_sha256": "76bc5a1d26c004744809eaafea1821db4f978a36da51277dc303d39a5c438b04",
+  "brief_sha256": "62cadc6ff2f0412e5d557dc6c50713ac300c35dbbe23cb9ca59ab8eb8977d929"
+}

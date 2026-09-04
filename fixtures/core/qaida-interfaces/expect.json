@@ -1,0 +1,10 @@
+{
+  "task_id": "qaida-interfaces",
+  "family": "qaida-chat-app",
+  "source": "real",
+  "project": "qaida",
+  "artifact_rel": ".pmos/out/architect/interfaces.md",
+  "provenance": "git:0841869",
+  "artifact_sha256": "18a0c2370d5dca5389ab0e0831712e30623ffbeb95965ad91080aa3155bd230f",
+  "brief_sha256": "72aa8e56b448460b3cbe54a51cbe9edfe12817b1f62ffe5521940aa60d759df1"
+}

@@ -1,0 +1,10 @@
+{
+  "task_id": "qaida-vocab-delta-plan",
+  "family": "qaida-chat-app",
+  "source": "real",
+  "project": "qaida",
+  "artifact_rel": ".pmos/out/architect/vocab-delta-plan.md",
+  "provenance": "git:0841869",
+  "artifact_sha256": "98af30e74567ae5c83fa014780d0045498e2cf04a2b42daa94d05610abf1ee35",
+  "brief_sha256": "60528f974fb5d31afc2b2c640fb9bbbb6d22695d54c469c3209ce50521d2c92d"
+}
