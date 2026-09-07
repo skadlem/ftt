@@ -8,3 +8,5 @@ traces/*.jsonl.tmp
 .DS_Store
 traces/
 teacher/traces/
+arms/*/*.md
+!arms/*/.gitkeep
