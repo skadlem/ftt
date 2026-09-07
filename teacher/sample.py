@@ -19,7 +19,8 @@ API key from env: QWEN_TOKEN_PLAN_API_KEY (never logged, never stored).
 
 Usage:
   python3 teacher/sample.py --tasks train_tasks.jsonl --out traces/
-  python3 teacher/sample.py --tasks train_tasks.jsonl --out traces/ --resume
+Resume is AUTOMATIC: completed task_ids in <out>/traces.jsonl are skipped on
+every run; --resume is accepted as a no-op for muscle memory.
 Tasks JSONL lines: {"id": str, "family": str, "seed_task_id": str, "brief": str}
 """
 import argparse
@@ -155,6 +156,8 @@ def main(argv=None) -> int:
     ap.add_argument("--fixtures", type=Path,
                     default=Path(__file__).resolve().parent.parent / "fixtures")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--resume", action="store_true",
+                    help="no-op: resume is automatic via existing task_ids")
     args = ap.parse_args(argv)
     key = os.environ.get("QWEN_TOKEN_PLAN_API_KEY", "")
     if not key:
