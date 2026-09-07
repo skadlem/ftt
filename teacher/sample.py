@@ -27,6 +27,7 @@ import argparse
 import hashlib
 import json
 import os
+import random
 import sys
 import time
 import urllib.error
@@ -98,6 +99,7 @@ def chat(api_key: str, brief: str, timeout: float = 600.0,
 
 def sample(tasks: list[dict], out_dir: Path, eval_idx: dict[str, str],
            api_key: str, retries: int = 4, retry_delay: float = 5.0,
+           jitter: tuple[float, float] | None = (15.0, 45.0),
            call=chat) -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     traces_path = out_dir / "traces.jsonl"
@@ -118,6 +120,7 @@ def sample(tasks: list[dict], out_dir: Path, eval_idx: dict[str, str],
                 rb.seek(-1, 2)
                 if rb.read(1) != b"\n":
                     fh.write("\n")
+        failed: list[str] = []
         for t in tasks:
             if t["id"] in done:
                 continue
@@ -146,11 +149,17 @@ def sample(tasks: list[dict], out_dir: Path, eval_idx: dict[str, str],
                         ValueError, TimeoutError, json.JSONDecodeError) as e:
                     err = e
                     time.sleep(retry_delay * (2 ** attempt))
-            if err is not None:
-                print(f"ABORT: {t['id']} failed after {retries} attempts: {err}",
-                      file=sys.stderr)
-                print("partial traces kept; re-run with --resume", file=sys.stderr)
-                return 1
+            if err is not None:  # task-level persistence: one dead task must
+                print(f"FAIL: {t['id']} after {retries} attempts: {err}",  # not
+                      file=sys.stderr)                                    # block the batch
+                failed.append(t["id"])
+                continue
+            if jitter:  # don't hammer a flaky route
+                time.sleep(random.uniform(*jitter))
+    if failed:
+        print(f"failed this pass: {failed}; partial kept, re-run to retry",
+              file=sys.stderr)
+        return 1
     print(f"sampled={n_ok} skipped={len(done)} refused={n_refused} out={traces_path}")
     return 0 if n_refused == 0 else 2
 

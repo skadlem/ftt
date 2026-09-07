@@ -10,3 +10,4 @@ traces/
 teacher/traces/
 arms/*/*.md
 !arms/*/.gitkeep
+logs/

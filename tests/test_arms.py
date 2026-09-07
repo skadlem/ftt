@@ -27,23 +27,23 @@ def test_run_writes_plans_and_is_resumable(tmp_path, monkeypatch):
     monkeypatch.setattr("arms.run_arms.ROOT", tmp_path)
     tasks = [{"task_id": "t1", "tier": "core", "brief": "b1"},
              {"task_id": "t2", "tier": "ring", "brief": "b2"}]
-    assert run("teacher", tasks, call=fake_call_factory()) == 0
+    assert run("teacher", tasks, jitter=None, call=fake_call_factory()) == 0
     d = tmp_path / "arms" / "teacher"
     assert (d / "t1.md").read_text().startswith("XXXX")
     call2 = fake_call_factory()
-    assert run("teacher", tasks, call=call2) == 0  # all skipped, 0 calls
+    assert run("teacher", tasks, jitter=None, call=call2) == 0  # all skipped, 0 calls
 
 def test_transient_failure_retries_then_succeeds(tmp_path, monkeypatch):
     monkeypatch.setattr("arms.run_arms.ROOT", tmp_path)
     tasks = [{"task_id": "t1", "tier": "core", "brief": "b"}]
-    assert run("teacher", tasks, retry_delay=0,
+    assert run("teacher", tasks, retry_delay=0, jitter=None,
                call=fake_call_factory(once_fail=True)) == 0
 
 
 def test_truncation_poison_fails_loud(tmp_path, monkeypatch):
     monkeypatch.setattr("arms.run_arms.ROOT", tmp_path)
     tasks = [{"task_id": "t1", "tier": "core", "brief": "b"}]
-    rc = run("teacher", tasks, retries=2, retry_delay=0,
+    rc = run("teacher", tasks, retries=2, retry_delay=0, jitter=None,
              call=fake_call_factory(truncated=True))
     assert rc == 1
     assert not (tmp_path / "arms" / "teacher" / "t1.md").exists()
@@ -69,3 +69,22 @@ def test_export_kaggle_bundle(tmp_path):
 def test_arm_endpoints_pinned():
     assert "token-plan" in ARMS["teacher"]["url"]
     assert ARMS["27b"]["model"] == "Qwen3.8-27B"  # NOT Qwen/... — probe-verified
+
+
+def test_dead_task_does_not_block_the_batch(tmp_path, monkeypatch):
+    """One permanently-failing task => other tasks still generated, exit 1
+    signals the wrapper to re-run (resume skips done files)."""
+    monkeypatch.setattr("arms.run_arms.ROOT", tmp_path)
+
+    def call(cfg, brief):
+        if "poison" in brief:
+            raise TimeoutError("route down for this one")
+        return {"plan": "X" * 400, "reasoning": "r"}
+
+    tasks = [{"task_id": "t1", "tier": "core", "brief": "poison"},
+             {"task_id": "t2", "tier": "core", "brief": "fine"}]
+    rc = run("teacher", tasks, retries=1, retry_delay=0, jitter=None, call=call)
+    assert rc == 1
+    assert not (tmp_path / "arms" / "teacher" / "t1.md").exists()
+    assert (tmp_path / "arms" / "teacher" / "t2.md").exists(), \
+        "t2 must still be generated despite t1 failing"

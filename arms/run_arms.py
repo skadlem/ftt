@@ -13,6 +13,7 @@ Both gated by finish_reason != length (same truncation poison rule as sampler).
 import argparse
 import json
 import os
+import random
 import sys
 import time
 import urllib.request
@@ -80,11 +81,13 @@ def export_kaggle_tasks(tasks: list[dict], path: Path) -> None:
 
 
 def run(arm: str, tasks: list[dict], retries: int = 3, retry_delay: float = 10.0,
+        jitter: tuple[float, float] | None = (15.0, 45.0),
         call=call_arm) -> int:
     cfg = ARMS[arm]
     out_dir = ROOT / "arms" / arm
     out_dir.mkdir(parents=True, exist_ok=True)
     n_ok = 0
+    failed: list[str] = []
     for t in tasks:
         f = out_dir / f"{t['task_id']}.md"
         if f.exists() and f.stat().st_size > 300:
@@ -103,9 +106,17 @@ def run(arm: str, tasks: list[dict], retries: int = 3, retry_delay: float = 10.0
                 err = e
                 time.sleep(retry_delay * (attempt + 1))
         if err is not None:
+            # one dead task must not block the other 11; the wrapper re-runs,
+            # resume skips completed files
             print(f"FAIL {arm}/{t['task_id']} after {retries} tries: {err}",
                   file=sys.stderr)
-            return 1
+            failed.append(t["task_id"])
+            continue
+        if jitter:  # don't hammer a flaky route
+            time.sleep(random.uniform(*jitter))
+    if failed:
+        print(f"failed this pass: {failed}; re-run to retry", file=sys.stderr)
+        return 1
     print(f"arm={arm} generated={n_ok} skipped={len(tasks)-n_ok}")
     return 0
 

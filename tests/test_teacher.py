@@ -32,7 +32,7 @@ class FakeCall:
 
 
 def test_sample_writes_per_trace_records(tmp_path):
-    rc = sample([_task("s1"), _task("s2")], tmp_path, EVAL_IDX, "k", call=FakeCall())
+    rc = sample([_task("s1"), _task("s2")], tmp_path, EVAL_IDX, "k", jitter=None, call=FakeCall())
     assert rc == 0
     lines = (tmp_path / "traces.jsonl").read_text().splitlines()
     assert len(lines) == 2
@@ -44,7 +44,7 @@ def test_sample_writes_per_trace_records(tmp_path):
 def test_resume_skips_done_and_keeps_partial(tmp_path):
     """Kill mid-run (transient abort), resume completes the rest — no dupes."""
     first = [_task("r1"), _task("r2"), _task("r3")]
-    rc = sample(first[:2], tmp_path, EVAL_IDX, "k", retries=1, retry_delay=0,
+    rc = sample(first[:2], tmp_path, EVAL_IDX, "k", retries=1, retry_delay=0, jitter=None,
                 call=FakeCall(fail_always=True))
     assert rc == 1, "must abort loudly on exhausted retries"
     assert not (tmp_path / "traces.jsonl").exists() or \
@@ -57,10 +57,10 @@ def test_resume_skips_done_and_keeps_partial(tmp_path):
             if self.n == 1:
                 return {"content": "ok1", "reasoning": "", "reasoning_tokens": 0}
             raise TimeoutError("kill")
-    rc = sample(first[:2], tmp_path, EVAL_IDX, "k", retries=1, retry_delay=0, call=OneOkOneDie())
+    rc = sample(first[:2], tmp_path, EVAL_IDX, "k", retries=1, retry_delay=0, jitter=None, call=OneOkOneDie())
     assert rc == 1
     assert (tmp_path / "traces.jsonl").read_text().count("\n") == 1  # r1 checkpointed
-    rc = sample(first, tmp_path, EVAL_IDX, "k", retries=2, retry_delay=0, call=FakeCall())
+    rc = sample(first, tmp_path, EVAL_IDX, "k", retries=2, retry_delay=0, jitter=None, call=FakeCall())
     assert rc == 0
     ids = [json.loads(l)["task_id"] for l in (tmp_path / "traces.jsonl").read_text().splitlines()]
     assert ids == ["r1", "r2", "r3"], f"resume order/dupes wrong: {ids}"
@@ -71,7 +71,7 @@ def test_torn_last_line_recovered(tmp_path):
     Resume must (a) not corrupt the valid record and (b) complete the missing
     task. The torn fragment is garbage — it must not merge with new records."""
     (tmp_path / "traces.jsonl").write_text('{"task_id": "t1", "plan": "p1"}\n{"task_i')
-    rc = sample([_task("t1"), _task("t2")], tmp_path, EVAL_IDX, "k", call=FakeCall())
+    rc = sample([_task("t1"), _task("t2")], tmp_path, EVAL_IDX, "k", jitter=None, call=FakeCall())
     assert rc == 0
     good = []
     for l in (tmp_path / "traces.jsonl").read_text().splitlines():
@@ -87,9 +87,9 @@ def test_torn_last_line_recovered(tmp_path):
 def test_disjointness_refused_before_any_api_spend(tmp_path):
     """Eval-id or normalized-brief collision => refused, zero API calls."""
     call = FakeCall()
-    rc = sample([_task("qaida-interfaces", "anything")], tmp_path, EVAL_IDX, "k", call=call)
+    rc = sample([_task("qaida-interfaces", "anything")], tmp_path, EVAL_IDX, "k", jitter=None, call=call)
     assert rc == 2 and call.n == 0, "must refuse by id WITHOUT calling the teacher"
-    rc = sample([_task("x9", "define the module interfaces")], tmp_path, EVAL_IDX, "k", call=call)
+    rc = sample([_task("x9", "define the module interfaces")], tmp_path, EVAL_IDX, "k", jitter=None, call=call)
     assert rc == 2 and call.n == 0, "must refuse on normalized brief-hash collision"
     assert not (tmp_path / "traces.jsonl").read_text().strip(), \
         "refused tasks must write zero records (file may exist empty)"
