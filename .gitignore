@@ -6,3 +6,5 @@ __pycache__/
 adapters/
 traces/*.jsonl.tmp
 .DS_Store
+traces/
+teacher/traces/
