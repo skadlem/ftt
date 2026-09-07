@@ -1,0 +1,6 @@
+{
+  "task_id": "ring-iot-fleet-dashboard-01",
+  "family": "iot-fleet-dashboard",
+  "source": "synthetic-ring",
+  "brief_sha256": "ec8898934cde547a8733856f32ed1473933226536415531d81a33254663f440a"
+}

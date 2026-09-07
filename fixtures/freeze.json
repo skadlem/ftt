@@ -18,7 +18,19 @@
     "core/qaida-od-resolutions/expect.json": "7c671c6e39f00a40e6fe57658a87229b0e7a0793e86beeab2821d00b5e664704",
     "core/qaida-vocab-delta-plan/expect.json": "7edc6a99001f5467b8d0ab26123c6996a04ead6f657dad700612aa1629cd86ff",
     "core/suited-architecture/expect.json": "a4d7495c6a290dbc87bc81f981c6f7f8f2ac009ade3d683bfde3549c75805e6a",
-    "core/suited-current-state/expect.json": "8ba39ed5d7adb55b45ac67fa49423075bd51569f2eb448ad0a29d901dca313ad"
+    "core/suited-current-state/expect.json": "8ba39ed5d7adb55b45ac67fa49423075bd51569f2eb448ad0a29d901dca313ad",
+    "ring/ring-browser-extension-03/brief.md": "8a034349edd9e91085b80844fc6cf7f2671f1ced9247278d343a9c24d8309b8d",
+    "ring/ring-browser-extension-04/brief.md": "79723594991cb1a7830f49b2bdcaf97e4af0f7e9f60104ac3b632d4e54349dfc",
+    "ring/ring-browser-extension-05/brief.md": "28c07580f112925248eaf142408ad37cbeca442d18c061ca299ff616ca60dc34",
+    "ring/ring-iot-fleet-dashboard-00/brief.md": "d0d5e82358175ea1c461d7d7f2e8d0c301b3f58569d51293c2b5f114d5b35886",
+    "ring/ring-iot-fleet-dashboard-01/brief.md": "ec8898934cde547a8733856f32ed1473933226536415531d81a33254663f440a",
+    "ring/ring-iot-fleet-dashboard-02/brief.md": "7db7be2a3a5676191546f21ea9de74a9af614fa553340d810eb13d1ffec7b29b",
+    "ring/ring-browser-extension-03/expect.json": "022d5c0ff809258f8e47e65d64c57593cd84a6661359e5527e8dcdbc6c54512f",
+    "ring/ring-browser-extension-04/expect.json": "b8bee81a5b4ffa990bae730bd80d04ffaa23bf3e31e1de2229e17a9143ae2fad",
+    "ring/ring-browser-extension-05/expect.json": "f6cbb1715df8aa94c338772e6b9e4eef55c96c94fe6aef3993b867853764d40c",
+    "ring/ring-iot-fleet-dashboard-00/expect.json": "66259fd94eebfcd1069621870278891a1bc3811fc941435d2650717a03dec643",
+    "ring/ring-iot-fleet-dashboard-01/expect.json": "e37ca31fd3a40c7ec2b1c5cfbfda30671cf30992de689de7013bbe1ab387fcff",
+    "ring/ring-iot-fleet-dashboard-02/expect.json": "355eda5c12c7dd6b20c982d29eb27960b88a6dd84052d6bebc9326fa049ff5c3"
   },
-  "aggregate_sha256": "ae1d9c016c1a17f39ab6945202ffcaf473d1aeedc181a6460e77dac5b2fe47c3"
+  "aggregate_sha256": "49098c6073d82b07f5c1aba07489012d771008f8f494f85c4ec2b3816318263a"
 }
