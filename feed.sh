@@ -5,7 +5,7 @@
 #   nohup ./feed.sh teacher  python3 teacher/sample.py --tasks tasks/train_pool.jsonl --out traces/ >> logs/feed-teacher.log 2>&1 &
 set -u
 label="$1"; shift
-cd "$(dirname "$0")/.."
+cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}")")"
 mkdir -p logs
 pass=0
 while true; do
