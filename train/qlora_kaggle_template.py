@@ -16,7 +16,10 @@ os.environ["HF_HOME"] = "/kaggle/working/hf"
 USE_4BIT = True                      # 16GB tier: QLoRA only. Never flip to LoRA here.
 
 # ------------------ 1. pins (fill before running) ------------------
-BASE_ID = "REPLACE_ME"               # open HF ID, same family as teacher (see Open Questions)
+BASE_ID = "Qwen/Qwen3.5-9B"          # PINNED 2026-09-07 (D15): apache-2.0, dense 9.65B,
+                                      # same arch lineage as teacher family (probed:
+                                      # Qwen3_5ForConditionalGeneration on HF). NOTE: new arch
+                                      # class -> pip install -U transformers before loading.
 MAX_LEN = 8192                       # plan + reasoning traces are long; verify vs data
 TARGET_MODULES = ["q_proj", "k_proj", "v_proj", "o_proj",
                   "gate_proj", "up_proj", "down_proj"]

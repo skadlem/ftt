@@ -20,7 +20,8 @@ import os
 from pathlib import Path
 
 MODE = "baseline"            # or "student"
-BASE_ID = "REPLACE_ME"       # same pin as training (open question in design doc)
+BASE_ID = "Qwen/Qwen3.5-9B"  # PINNED 2026-09-07 (D15) — same as training base.
+                              # Kaggle session: pip install -U transformers (new arch class).
 ADAPTER = "adapter" if MODE == "student" else None
 TASKS_FILE = "arms/g0_tasks.jsonl"
 OUT_DIR = Path("plans")
