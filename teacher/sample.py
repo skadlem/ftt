@@ -66,8 +66,8 @@ def check_disjoint(task: dict, eval_idx: dict[str, str]) -> str | None:
     return None
 
 
-def chat(api_key: str, brief: str, timeout: float = 300.0,
-         max_tokens: int = 8000) -> dict:
+def chat(api_key: str, brief: str, timeout: float = 600.0,
+         max_tokens: int = 16000) -> dict:
     body = json.dumps({
         "model": MODEL,
         "messages": [{"role": "system", "content": SYSTEM},
@@ -81,13 +81,18 @@ def chat(api_key: str, brief: str, timeout: float = 300.0,
                  "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 (fixed host)
         resp = json.loads(r.read())
-    msg = resp["choices"][0]["message"]
+    ch0 = resp["choices"][0]
+    msg = ch0["message"]
     content = (msg.get("content") or "").strip()
     reasoning = (msg.get("reasoning_content") or "").strip()
     if not content:
         raise ValueError("empty content from teacher")
+    if ch0.get("finish_reason") == "length":
+        # truncated plan = silent data-quality poison; treat as retryable failure
+        raise ValueError("finish_reason=length: plan truncated, retry with larger cap")
     usage = resp.get("usage", {})
     return {"content": content, "reasoning": reasoning,
+            "finish_reason": ch0.get("finish_reason", ""),
             "reasoning_tokens": usage.get("completion_tokens_details", {}).get("reasoning_tokens", 0)}
 
 
@@ -129,6 +134,7 @@ def sample(tasks: list[dict], out_dir: Path, eval_idx: dict[str, str],
                            "seed_task_id": t.get("seed_task_id", ""),
                            "model": MODEL, "plan": r["content"],
                            "reasoning": r["reasoning"],
+                           "finish_reason": r.get("finish_reason", ""),
                            "reasoning_tokens": r["reasoning_tokens"]}
                     fh.write(json.dumps(rec) + "\n")
                     fh.flush()
