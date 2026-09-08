@@ -21,6 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+from harness.retry import backoff_sleep  # noqa: E402
 
 PLAN_SYSTEM = ("You are the planner in a multi-agent software team. Given a task "
                "brief, produce a complete implementation plan: decomposition into "
@@ -104,7 +105,7 @@ def run(arm: str, tasks: list[dict], retries: int = 3, retry_delay: float = 10.0
                 break
             except Exception as e:  # noqa: BLE001
                 err = e
-                time.sleep(retry_delay * (attempt + 1))
+                backoff_sleep(e, attempt, retry_delay)
         if err is not None:
             # one dead task must not block the other 11; the wrapper re-runs,
             # resume skips completed files

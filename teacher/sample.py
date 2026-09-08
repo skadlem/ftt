@@ -34,6 +34,9 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from harness.retry import backoff_sleep  # noqa: E402  (script-safe import)
+
 BASE_URL = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
 MODEL = "qwen3.8-max"
 SYSTEM = ("You are the planner in a multi-agent software team. Given a task "
@@ -148,7 +151,7 @@ def sample(tasks: list[dict], out_dir: Path, eval_idx: dict[str, str],
                 except (urllib.error.URLError, urllib.error.HTTPError,
                         ValueError, TimeoutError, json.JSONDecodeError) as e:
                     err = e
-                    time.sleep(retry_delay * (2 ** attempt))
+                    backoff_sleep(e, attempt, retry_delay)
             if err is not None:  # task-level persistence: one dead task must
                 print(f"FAIL: {t['id']} after {retries} attempts: {err}",  # not
                       file=sys.stderr)                                    # block the batch
