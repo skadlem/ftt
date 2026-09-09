@@ -1,0 +1,18 @@
+{
+  "mode": "baseline",
+  "model": "/root/.cache/huggingface/hub/models--unsloth--Qwen3.5-9B-GGUF/snapshots/3885219b6810b007914f3a7950a8d1b469d598a5/Qwen3.5-9B-Q4_K_M.gguf",
+  "results": {
+    "qaida-current-state": "ok",
+    "qaida-interfaces": "truncated",
+    "qaida-od-resolutions": "ok",
+    "qaida-vocab-delta-plan": "ok",
+    "suited-architecture": "ok",
+    "suited-current-state": "ok",
+    "ring-browser-extension-03": "ok",
+    "ring-browser-extension-04": "ok",
+    "ring-browser-extension-05": "ok",
+    "ring-iot-fleet-dashboard-00": "ok",
+    "ring-iot-fleet-dashboard-01": "ok",
+    "ring-iot-fleet-dashboard-02": "ok"
+  }
+}
